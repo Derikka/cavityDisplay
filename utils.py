@@ -1,12 +1,16 @@
 from csv import DictReader
 from typing import Dict, List
 
+from lcls_tools.common.data_analysis.archiver import Archiver
+
 STATUS_SUFFIX = "CUDSTATUS"
 SEVERITY_SUFFIX = "CUDSEVR"
 DESCRIPTION_SUFFIX = "CUDDESC"
 RF_STATUS_SUFFIX = "RFSTATE"
 
-DEBUG = False
+ARCHIVER = Archiver('lcls')
+
+DEBUG = True
 BACKEND_SLEEP_TIME = 10
 
 CSV_FAULTS: List[Dict] = []
