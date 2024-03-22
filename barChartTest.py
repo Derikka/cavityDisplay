@@ -6,11 +6,11 @@ from PyQt5.QtWidgets import QVBoxLayout
 from datetime import datetime, timedelta
 from pydm import Display
 
-from displayLinac import DISPLAY_CRYOMODULES, DisplayCryomodule
 from lcls_tools.common.data_analysis.archiver import Archiver
 from lcls_tools.superconducting.sc_linac_utils import ALL_CRYOMODULES
 
 print(ALL_CRYOMODULES)
+'''
 for cm in ALL_CRYOMODULES:
     print("cm: ", cm)
     cm_obj: DisplayCryomodule = DISPLAY_CRYOMODULES[cm]
@@ -20,6 +20,7 @@ for cm in ALL_CRYOMODULES:
                                                           timedelta(minutes=1),
                                                 endtime=datetime.now())
         print(cav, datetime.now() - initialTime)
+'''
 
 
 class BarChart(Display):
@@ -30,7 +31,7 @@ class BarChart(Display):
         vertLayout_Form = self.ui.findChild(QVBoxLayout)
 
         # Read in archive data
-        pv_strings = ["PPS:SYSW:1:BeamReadyA", "PPS:SYSW:1:BeamReadyB",
+        pv_strings = ["PPS:SYSW:1:BeamReadyA", "ACCL:L3B:1910:PZT:FBSTATSUM",
                       "ACCL:L2B:1310:SSA_LTCH", "ACCL:L2B:1310:CRYO_LTCH"]
 
         archiver = Archiver('lcls')
@@ -53,7 +54,7 @@ class BarChart(Display):
                 yaxis_fault.append(fault_counter)
                 print(pv_string, value_list, fault_counter)
 
-            elif pv_string == "PPS:SYSW:1:BeamReadyB":
+            elif pv_string == "ACCL:L3B:1910:PZT:FBSTATSUM":
                 # fault status isOkay if value = 1
                 fault_counter = 0
                 for value in value_list:
@@ -87,7 +88,7 @@ class BarChart(Display):
         vertLayout_Form.addWidget(plot_window)
 
         # Create list for horizontal and vertical axis
-        xlabel = ['PPS', 'PPS', 'SSP', 'CSI']
+        xlabel = ['PPS', 'PZT', 'SSP', 'CSI']
         xval = [0, 1, 2, 3]
         # y1 = [5, 10, 1, 0]
 
