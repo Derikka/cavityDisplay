@@ -1,8 +1,8 @@
 from collections import OrderedDict
-from datetime import datetime
-from typing import Dict
 
+from datetime import datetime
 from epics import caput
+from typing import Dict
 
 from fault import Fault, FaultCounter, PVInvalidError
 from lcls_tools.superconducting.sc_linac import Cavity, Cryomodule, Machine, SSA
@@ -29,9 +29,9 @@ class SpreadsheetError(Exception):
 
 class DisplayCryomodule(Cryomodule):
     def __init__(
-        self,
-        cryo_name,
-        linac_object,
+            self,
+            cryo_name,
+            linac_object,
     ):
         super().__init__(
             cryo_name=cryo_name,
@@ -54,9 +54,9 @@ class DisplayCryomodule(Cryomodule):
 
 class DisplayCavity(Cavity):
     def __init__(
-        self,
-        cavity_num,
-        rack_object,
+            self,
+            cavity_num,
+            rack_object,
     ):
         super(DisplayCavity, self).__init__(
             cavity_num=cavity_num, rack_object=rack_object
@@ -110,7 +110,7 @@ class DisplayCavity(Cavity):
                 )
 
                 if (cm_type == "1.3" and self.cryomodule.is_harmonic_linearizer) or (
-                    cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
+                        cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
                 ):
                     continue
                 pv = prefix + suffix
@@ -154,14 +154,19 @@ class DisplayCavity(Cavity):
             )
 
     def get_fault_counts(
-        self, start_time: datetime, end_time: datetime
+            self, start_time: datetime, end_time: datetime
     ) -> Dict[str, FaultCounter]:
         result: Dict[str, FaultCounter] = {}
 
+        print("get_fault_counts in display_linac.py")
         for fault in self.faults.values():
             result[fault.pv.pvname] = fault.get_fault_count_over_time_range(
                 start_time=start_time, end_time=end_time
             )
+
+        # result is a dictionary with key=fault pv string, value=FaultCounter(fault_count=0, ok_count=1, invalid_count=0)
+        # for faultPv in result:
+        #    print(faultPv, "\t", result[faultPv])
 
         return result
 

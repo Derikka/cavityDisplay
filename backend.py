@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from time import sleep
 
 from display_linac import DISPLAY_MACHINE, DisplayCryomodule
@@ -14,7 +14,13 @@ while True:
     for cryomoduleName in ALL_CRYOMODULES:
         cryomodule: DisplayCryomodule = DISPLAY_MACHINE.cryomodules[cryomoduleName]
         for cavity in cryomodule.cavities.values():
-            cavity.run_through_faults()
+            # EX: cavity = L0B CM01 Cavity 2
+            # EX: cryomodule.cavities.values() = dict of 8 display_linac.DisplayCavity object
+            ########### cavity.run_through_faults() ####PUT THIS BACK IN
+            if (cavity.pv_prefix == "ACCL:L1B:H220:"):
+                print(cavity.pv_prefix)
+                cavity.get_fault_counts(datetime.now() - timedelta(minutes=1), datetime.now())
+            # print("Start: ", datetime.now() - timedelta(minutes=1), "End: ", datetime.now())
     if DEBUG:
         delta = (datetime.now() - start).total_seconds()
         sleep(BACKEND_SLEEP_TIME - delta if delta < BACKEND_SLEEP_TIME else 0)

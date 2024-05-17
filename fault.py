@@ -34,20 +34,20 @@ class PVInvalidError(Exception):
 
 class Fault:
     def __init__(
-        self,
-        tlc,
-        severity,
-        pv,
-        ok_value,
-        fault_value,
-        long_description,
-        short_description,
-        button_level,
-        button_command,
-        macros,
-        button_text,
-        button_macro,
-        action,
+            self,
+            tlc,
+            severity,
+            pv,
+            ok_value,
+            fault_value,
+            long_description,
+            short_description,
+            button_level,
+            button_command,
+            macros,
+            button_text,
+            button_macro,
+            action,
     ):
         self.tlc = tlc
         self.severity = int(severity)
@@ -65,6 +65,7 @@ class Fault:
         self.pv: PV = PV(pv, connection_timeout=PV_TIMEOUT)
 
     def is_currently_faulted(self):
+        # returns "FALSE" if not faulted. aka Are you faulted? FALSE! All good here
         return self.is_faulted(self.pv)
 
     def is_faulted(self, obj: Union[PV, ArchiverValue]):
@@ -80,10 +81,18 @@ class Fault:
             raise PVInvalidError(self.pv.pvname)
 
         if self.ok_value is not None:
+            # "is not None" means it has a value. It is not a blank, no value
+            # ok_value = value stated in spreadsheet
+            # obj.value = actual reading value from pv
             return obj.val != self.ok_value
+            # Does the actual value NOT match the spreadsheet value?
+            # If they don't match, return TRUE
+            # return "FALSE" means is_okay, not faulted
 
         elif self.fault_value is not None:
             return obj.val == self.fault_value
+            # return "FALSE" means not faulted
+            # return "TRUE" means faulted
 
         else:
             print(self)
@@ -99,7 +108,7 @@ class Fault:
         return self.is_faulted(archiver_value)
 
     def get_fault_count_over_time_range(
-        self, start_time: datetime, end_time: datetime
+            self, start_time: datetime, end_time: datetime
     ) -> FaultCounter:
         result = get_values_over_time_range(
             pv_list=[self.pv.pvname], start_time=start_time, end_time=end_time
@@ -118,4 +127,6 @@ class Fault:
             except PVInvalidError:
                 counter.invalid_count += 1
 
+        print("PV: ", self.pv.pvname, "\tCounter:", counter, counter.fault_count, counter.ok_count,
+              counter.invalid_count)
         return counter
