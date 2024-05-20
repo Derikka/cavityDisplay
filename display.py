@@ -1,16 +1,12 @@
 import json
-import sys
-from typing import List
-
 from PyQt5.QtWidgets import QHBoxLayout, QLabel
 from pydm import Display
 from pydm.widgets import PyDMByteIndicator, PyDMEmbeddedDisplay, PyDMTemplateRepeater
+from typing import List
 
+from frontend.cavity_widget import CavityWidget
 from lcls_tools.superconducting.sc_linac import Cavity, MACHINE
 from utils import DESCRIPTION_SUFFIX, SEVERITY_SUFFIX, STATUS_SUFFIX
-
-sys.path.insert(0, "./frontend")
-from cavityWidget import CavityWidget
 
 
 class CavityDisplayGUI(Display):
@@ -61,7 +57,7 @@ class CavityDisplayGUI(Display):
                         ssa_status_bar_list.append(statusBar)
 
                 for cavity_widget, rf_status_bar, ssa_status_bar in zip(
-                    cavity_widget_list, rf_status_bar_list, ssa_status_bar_list
+                        cavity_widget_list, rf_status_bar_list, ssa_status_bar_list
                 ):
                     cavity_object: Cavity = cryomodule_object.cavities[
                         int(cavity_widget.cavityText)

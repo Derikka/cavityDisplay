@@ -18,10 +18,6 @@ class BarChart(Display):
 
         vertLayout_Form = self.ui.findChild(QVBoxLayout)
 
-        # Read in archive data
-        # pv_strings = ["PPS:SYSW:1:BeamReadyA", "ACCL:L3B:1910:PZT:FBSTATSUM",
-        #              "ACCL:L2B:1310:SSA_LTCH", "ACCL:L2B:1310:CRYO_LTCH"]
-
         pv_string1 = "ACCL:L3B:1910:PZT:FBSTATSUM"  # PZO fault
         pv_string2 = "XCOR:L3B:1685:STATMSG"  # MGT fault
         pv_list = [pv_string1, pv_string2]
@@ -54,7 +50,7 @@ class BarChart(Display):
                 yaxis_fault.append(fault_count)
                 print(key, "\tTotal fault counts: ", fault_count)
 
-        # Make plot window and it to the vert layout
+        # Make plot window and add it to the vert layout
         plot_window = pg.plot()
         vertLayout_Form.addWidget(plot_window)
 
