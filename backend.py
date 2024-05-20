@@ -16,9 +16,9 @@ while True:
         for cavity in cryomodule.cavities.values():
             # EX: cavity = L0B CM01 Cavity 2
             # EX: cryomodule.cavities.values() = dict of 8 display_linac.DisplayCavity object
-            ########### cavity.run_through_faults() ####PUT THIS BACK IN
+            # TODO
+            ########### cavity.run_through_faults() ####PUT THIS BACK IN 
             if (cavity.pv_prefix == "ACCL:L1B:H220:"):
-                print(cavity.pv_prefix)
                 cavity.get_fault_counts(datetime.now() - timedelta(minutes=1), datetime.now())
             # print("Start: ", datetime.now() - timedelta(minutes=1), "End: ", datetime.now())
     if DEBUG:

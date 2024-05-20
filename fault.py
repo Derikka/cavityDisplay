@@ -127,6 +127,6 @@ class Fault:
             except PVInvalidError:
                 counter.invalid_count += 1
 
-        print("PV: ", self.pv.pvname, "\tCounter:", counter, counter.fault_count, counter.ok_count,
-              counter.invalid_count)
+        # print("PV: ", self.pv.pvname, "\tCounter:", counter, counter.fault_count, counter.ok_count,
+        #      counter.invalid_count)
         return counter
