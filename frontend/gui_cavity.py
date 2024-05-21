@@ -19,7 +19,6 @@ class GUICavity(Cavity):
         self.grid_layout.setContentsMargins(1, 1, 1, 1)
         self.grid_layout.setVerticalSpacing(0)
 
-        # self.vert_layout = QVBoxLayout()
         self.cavity_widget = CavityWidget()
         self.cavity_widget.setMinimumSize(10, 10)
         self.cavity_widget.setAccessibleName("cavity_widget")
