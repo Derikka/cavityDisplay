@@ -1,10 +1,9 @@
 import json
-from typing import TYPE_CHECKING
-
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
+from PyQt5.QtWidgets import QHBoxLayout, QGridLayout, QSizePolicy
 from frontend.cavity_widget import CavityWidget
 from pydm.widgets import PyDMByteIndicator
+from typing import TYPE_CHECKING
 
 from lcls_tools.superconducting.sc_linac import Cavity
 
@@ -17,6 +16,8 @@ class GUICavity(Cavity):
         super().__init__(cavity_num, rack_object)
         self.grid_layout = QGridLayout()
         self.grid_layout.setRowStretch(0, 0)
+        self.grid_layout.setContentsMargins(1, 1, 1, 1)
+        self.grid_layout.setVerticalSpacing(0)
 
         # self.vert_layout = QVBoxLayout()
         self.cavity_widget = CavityWidget()
