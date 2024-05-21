@@ -22,7 +22,7 @@ class GUICavity(Cavity):
         self.cavity_widget = CavityWidget()
         self.cavity_widget.setMinimumSize(10, 10)
         self.cavity_widget.setAccessibleName("cavity_widget")
-        self.cavity_widget.setStyleSheet("background-color: rgb(40, 40, 40);")
+        # self.cavity_widget.setStyleSheet("background-color: rgb(40, 40, 40);")
         self.cavity_widget.cavityText = str(cavity_num)
         self.cavity_widget.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
         self.cavity_widget.cmName = self.cryomodule.name
