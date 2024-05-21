@@ -1,10 +1,15 @@
 import json
+from typing import TYPE_CHECKING
+
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QHBoxLayout, QGridLayout, QSizePolicy
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
+from frontend.cavity_widget import CavityWidget
 from pydm.widgets import PyDMByteIndicator
 
-from frontend.cavity_widget import CavityWidget
 from lcls_tools.superconducting.sc_linac import Cavity
+
+if TYPE_CHECKING:
+    from lcls_tools.superconducting.sc_linac import Rack
 
 
 class GUICavity(Cavity):
