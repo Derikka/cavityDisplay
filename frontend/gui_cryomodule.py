@@ -15,4 +15,4 @@ class GUICryomodule(Cryomodule):
         )
         self.vlayout.addWidget(self.label)
         for gui_cavity in self.cavities.values():
-            self.vlayout.addLayout(gui_cavity.vert_layout)
+            self.vlayout.addLayout(gui_cavity.grid_layout)

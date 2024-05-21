@@ -1,6 +1,6 @@
 import json
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QSizePolicy
+from PyQt5.QtWidgets import QHBoxLayout, QGridLayout, QSizePolicy
 from pydm.widgets import PyDMByteIndicator
 
 from frontend.cavity_widget import CavityWidget
@@ -10,7 +10,10 @@ from lcls_tools.superconducting.sc_linac import Cavity
 class GUICavity(Cavity):
     def __init__(self, cavity_num: int, rack_object: "Rack"):
         super().__init__(cavity_num, rack_object)
-        self.vert_layout = QVBoxLayout()
+        self.grid_layout = QGridLayout()
+        self.grid_layout.setRowStretch(0, 0)
+
+        # self.vert_layout = QVBoxLayout()
         self.cavity_widget = CavityWidget()
         self.cavity_widget.setMinimumSize(10, 10)
         self.cavity_widget.setAccessibleName("cavity_widget")
@@ -27,7 +30,7 @@ class GUICavity(Cavity):
         self.ssa_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         self.ssa_bar.showLabels = False
         self.ssa_bar.channel = self.ssa.status_pv
-        self.ssa_bar.sizeHint()
+        self.ssa_bar.setFixedHeight(5)
 
         self.rf_bar = PyDMByteIndicator()
         self.rf_bar.setAccessibleName("RFSTATE")
@@ -36,13 +39,13 @@ class GUICavity(Cavity):
         self.rf_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         self.rf_bar.showLabels = False
         self.rf_bar.channel = self.rf_state_pv
-        self.rf_bar.setFixedHeight(1)
+        self.rf_bar.setFixedHeight(5)
 
         self.hor_layout.addWidget(self.ssa_bar)
         self.hor_layout.addWidget(self.rf_bar)
 
-        self.vert_layout.addWidget(self.cavity_widget)
-        self.vert_layout.addLayout(self.hor_layout)
+        self.grid_layout.addWidget(self.cavity_widget, 0, 0)
+        self.grid_layout.addLayout(self.hor_layout, 1, 0)
 
         severity_pv: str = self.pv_addr("CUDSEVR")
         status_pv: str = self.pv_addr("CUDSTATUS")
