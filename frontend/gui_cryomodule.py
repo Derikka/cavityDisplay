@@ -18,5 +18,6 @@ class GUICryomodule(Cryomodule):
             "background-color: rgb(35, 35, 35); color: rgb(255, 255, 255);"
         )
         self.vlayout.addWidget(self.label)
+        print(f"Adding cavity widgets to cm{self.name}")
         for gui_cavity in self.cavities.values():
             self.vlayout.addLayout(gui_cavity.vert_layout)
