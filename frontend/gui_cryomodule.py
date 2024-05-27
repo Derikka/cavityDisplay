@@ -1,10 +1,8 @@
-from typing import TYPE_CHECKING
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QVBoxLayout, QLabel
+from typing import TYPE_CHECKING
 
 from lcls_tools.superconducting.sc_linac import Cryomodule
-
 
 if TYPE_CHECKING:
     from lcls_tools.superconducting.sc_linac import Linac
@@ -21,4 +19,4 @@ class GUICryomodule(Cryomodule):
         )
         self.vlayout.addWidget(self.label)
         for gui_cavity in self.cavities.values():
-            self.vlayout.addLayout(gui_cavity.grid_layout)
+            self.vlayout.addLayout(gui_cavity.vert_layout)

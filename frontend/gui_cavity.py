@@ -1,6 +1,6 @@
 import json
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QHBoxLayout, QGridLayout, QSizePolicy
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QSizePolicy
 from frontend.cavity_widget import CavityWidget
 from pydm.widgets import PyDMByteIndicator
 from typing import TYPE_CHECKING
@@ -14,27 +14,26 @@ if TYPE_CHECKING:
 class GUICavity(Cavity):
     def __init__(self, cavity_num: int, rack_object: "Rack"):
         super().__init__(cavity_num, rack_object)
-        self.grid_layout = QGridLayout()
-        self.grid_layout.setRowStretch(0, 0)
-        self.grid_layout.setContentsMargins(1, 1, 1, 1)
-        self.grid_layout.setVerticalSpacing(0)
+        self.vert_layout = QVBoxLayout()
+        self.vert_layout.setContentsMargins(1, 1, 1, 1)
+        self.vert_layout.setSpacing(0)
 
         self.cavity_widget = CavityWidget()
         self.cavity_widget.setMinimumSize(10, 10)
         self.cavity_widget.setAccessibleName("cavity_widget")
-        # self.cavity_widget.setStyleSheet("background-color: rgb(40, 40, 40);")
         self.cavity_widget.cavityText = str(cavity_num)
-        self.cavity_widget.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
+        self.cavity_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.cavity_widget.cmName = self.cryomodule.name
         self.cavity_widget.cavityNumber = cavity_num
 
         self.hor_layout = QHBoxLayout()
+        self.hor_layout.setSpacing(0)
 
         self.ssa_bar = PyDMByteIndicator()
         self.ssa_bar.setAccessibleName("SSA")
         self.ssa_bar.onColor = QColor(92, 255, 92)
         self.ssa_bar.offColor = QColor(40, 40, 40)
-        self.ssa_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        self.ssa_bar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.ssa_bar.showLabels = False
         self.ssa_bar.channel = self.ssa.status_pv
         self.ssa_bar.setFixedHeight(5)
@@ -43,7 +42,7 @@ class GUICavity(Cavity):
         self.rf_bar.setAccessibleName("RFSTATE")
         self.rf_bar.onColor = QColor(14, 191, 255)
         self.rf_bar.offColor = QColor(40, 40, 40)
-        self.rf_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        self.rf_bar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         self.rf_bar.showLabels = False
         self.rf_bar.channel = self.rf_state_pv
         self.rf_bar.setFixedHeight(5)
@@ -51,8 +50,8 @@ class GUICavity(Cavity):
         self.hor_layout.addWidget(self.ssa_bar)
         self.hor_layout.addWidget(self.rf_bar)
 
-        self.grid_layout.addWidget(self.cavity_widget, 0, 0)
-        self.grid_layout.addLayout(self.hor_layout, 1, 0)
+        self.vert_layout.addWidget(self.cavity_widget)
+        self.vert_layout.addLayout(self.hor_layout)
 
         severity_pv: str = self.pv_addr("CUDSEVR")
         status_pv: str = self.pv_addr("CUDSTATUS")
