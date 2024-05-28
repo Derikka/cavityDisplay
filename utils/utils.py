@@ -3,7 +3,7 @@ from csv import DictReader
 
 from typing import Dict, List
 
-DEBUG = True
+DEBUG = False
 BACKEND_SLEEP_TIME = 10
 
 STATUS_SUFFIX = "CUDSTATUS"
@@ -23,20 +23,20 @@ def parse_csv() -> List[Dict]:
 
 
 def display_hash(
-    rack: str,
-    fault_condition: str,
-    ok_condition: str,
-    tlc: str,
-    suffix: str,
-    prefix: str,
+        rack: str,
+        fault_condition: str,
+        ok_condition: str,
+        tlc: str,
+        suffix: str,
+        prefix: str,
 ):
     return (
-        hash(rack)
-        ^ hash(fault_condition)
-        ^ hash(ok_condition)
-        ^ hash(tlc)
-        ^ hash(suffix)
-        ^ hash(prefix)
+            hash(rack)
+            ^ hash(fault_condition)
+            ^ hash(ok_condition)
+            ^ hash(tlc)
+            ^ hash(suffix)
+            ^ hash(prefix)
     )
 
 
