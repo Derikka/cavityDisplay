@@ -1,7 +1,6 @@
-from functools import partial
-
 from PyQt5.QtGui import QColor, QPalette, QCursor
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QFrame, QPushButton
+from functools import partial
 from pydm import Display
 from pydm.utilities import IconFont
 from pydm.widgets import PyDMByteIndicator, PyDMLabel
@@ -44,8 +43,14 @@ class CavityDisplayGUI(Display):
         heartbeat_indicator.showLabels = False
 
         heartbeat_label = PyDMLabel(init_channel="ALRM:SYS0:SC_CAV_FAULT:ALHBERR")
+        heartbeat_label.setStyleSheet(
+            "color: rgb(255, 255, 255);"
+        )
 
         heartbeat_counter = PyDMLabel(init_channel="PHYS:SYS0:1:SC_CAV_FAULT_HEARTBEAT")
+        heartbeat_counter.setStyleSheet(
+            "color: rgb(255, 255, 255);"
+        )
 
         self.header.addWidget(heartbeat_indicator)
         self.header.addWidget(heartbeat_label)
