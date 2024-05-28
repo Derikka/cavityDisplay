@@ -34,6 +34,7 @@ class GUICavity(Cavity):
         self.ssa_bar.onColor = QColor(92, 255, 92)
         self.ssa_bar.offColor = QColor(40, 40, 40)
         self.ssa_bar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+
         self.ssa_bar.showLabels = False
         self.ssa_bar.channel = self.ssa.status_pv
         self.ssa_bar.setFixedHeight(5)
