@@ -1,5 +1,3 @@
-from typing import Optional
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QGridLayout,
@@ -13,6 +11,7 @@ from PyQt5.QtWidgets import (
 from edmbutton import PyDMEDMDisplayButton
 from pydm import Display
 from pydm.widgets import PyDMLabel, PyDMRelatedDisplayButton, PyDMShellCommand
+from typing import Optional
 
 from backend.backend_cavity import BackendCavity
 from backend.backend_cryomodule import BackendCryomodule
@@ -142,7 +141,7 @@ class FaultCavity(BackendCavity):
         button_header_label.setStyleSheet("text-decoration:underline")
 
         action_header_label: QLabel = QLabel("Recommended Corrective Action")
-        action_header_label.setAlignment(Qt.AlignHCenter)
+        action_header_label.setAlignment(Qt.AlignLeft)
         action_header_label.setStyleSheet("text-decoration:underline")
 
         grid_layout.addWidget(code_header_label, 0, 0)
