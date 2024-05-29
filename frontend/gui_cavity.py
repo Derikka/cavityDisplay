@@ -31,8 +31,6 @@ class GUICavity(BackendCavity):
         self.fault_display_grid_layout = make_header()
 
         self.vert_layout = QVBoxLayout()
-        self.vert_layout.setContentsMargins(1, 1, 1, 1)
-        self.vert_layout.setSpacing(0)
 
         self.cavity_widget = CavityWidget()
         self.cavity_widget.setMinimumSize(10, 10)
@@ -42,28 +40,31 @@ class GUICavity(BackendCavity):
         self.cavity_widget.clicked.connect(self.show_fault_display)
 
         self.hor_layout = QHBoxLayout()
-        self.hor_layout.setSpacing(0)
+        self.hor_layout.addStretch()
 
         self.ssa_bar = PyDMByteIndicator()
         self.ssa_bar.setAccessibleName("SSA")
         self.ssa_bar.onColor = QColor(92, 255, 92)
         self.ssa_bar.offColor = QColor(40, 40, 40)
-        self.ssa_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        self.ssa_bar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.ssa_bar.showLabels = False
         self.ssa_bar.channel = self.ssa.status_pv
         self.ssa_bar.setFixedHeight(5)
+        self.ssa_bar.setMinimumWidth(20)
 
         self.rf_bar = PyDMByteIndicator()
         self.rf_bar.setAccessibleName("RFSTATE")
         self.rf_bar.onColor = QColor(14, 191, 255)
         self.rf_bar.offColor = QColor(40, 40, 40)
-        self.rf_bar.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        self.rf_bar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.rf_bar.showLabels = False
         self.rf_bar.channel = self.rf_state_pv
         self.rf_bar.setFixedHeight(5)
+        self.rf_bar.setMinimumWidth(20)
 
         self.hor_layout.addWidget(self.ssa_bar)
         self.hor_layout.addWidget(self.rf_bar)
+        self.hor_layout.addStretch()
 
         self.vert_layout.addWidget(self.cavity_widget)
         self.vert_layout.addLayout(self.hor_layout)
