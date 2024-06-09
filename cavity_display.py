@@ -1,14 +1,14 @@
 from functools import partial
 
-from PyQt5.QtGui import QColor, QPalette, QCursor
+from PyQt5.QtGui import QColor, QCursor
 from PyQt5.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QFrame,
     QPushButton,
-    QApplication,
-    QWidget,
+    QGroupBox,
 )
+from pydm import Display
 from pydm.utilities import IconFont
 from pydm.widgets import PyDMByteIndicator, PyDMLabel
 
@@ -17,20 +17,15 @@ from frontend.gui_machine import GUIMachine
 from frontend.utils import make_line
 from lcls_tools.common.frontend.display.util import showDisplay
 
-app = QApplication([])
 
-
-class CavityDisplayGUI(QWidget):
+class CavityDisplayGUI(Display):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
+        self.setStyleSheet(
+            "background-color: rgb(35, 35, 35); color: rgb(255, 255, 255); font-size: 15pt;"
+        )
 
         self.gui_machine = GUIMachine()
-        self.setAutoFillBackground(True)
-        pal = QPalette()
-        pal.setColor(QPalette.Window, QColor(40, 40, 40))
-        self.setPalette(pal)
-
-        self.setStyleSheet("color: rgb(255, 255, 255);")
 
         self.header = QHBoxLayout()
         heartbeat_indicator = PyDMByteIndicator(
@@ -43,7 +38,6 @@ class CavityDisplayGUI(QWidget):
         heartbeat_indicator.showLabels = False
 
         heartbeat_label = PyDMLabel(init_channel="ALRM:SYS0:SC_CAV_FAULT:ALHBERR")
-
         heartbeat_counter = PyDMLabel(init_channel="PHYS:SYS0:1:SC_CAV_FAULT_HEARTBEAT")
 
         self.header.addWidget(heartbeat_indicator)
@@ -60,22 +54,20 @@ class CavityDisplayGUI(QWidget):
         self.decoder.setIcon(icon)
         self.decoder.setCursor(QCursor(icon.pixmap(16, 16)))
         self.decoder.openInNewWindow = True
-        self.decoder.setStyleSheet(
-            "background-color: rgb(35, 35, 35); color: rgb(255, 255, 255);"
-        )
         self.header.addWidget(self.decoder)
 
         self.setWindowTitle("SRF Cavity Display")
 
         self.vlayout = QVBoxLayout()
-        self.vlayout.addLayout(self.header)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
+        self.groupbox_vlayout = QVBoxLayout()
+        self.groupbox_vlayout.addLayout(self.header)
         self.setLayout(self.vlayout)
 
-        self.vlayout.addLayout(self.gui_machine.top_half)
-        self.vlayout.addWidget(make_line(QFrame.HLine))
-        self.vlayout.addLayout(self.gui_machine.bottom_half)
+        self.groupbox_vlayout.addLayout(self.gui_machine.top_half)
+        self.groupbox_vlayout.addWidget(make_line(QFrame.HLine))
+        self.groupbox_vlayout.addLayout(self.gui_machine.bottom_half)
 
-
-window = CavityDisplayGUI()
-window.show()
-app.exec()
+        self.groupbox = QGroupBox()
+        self.groupbox.setLayout(self.groupbox_vlayout)
+        self.vlayout.addWidget(self.groupbox)
