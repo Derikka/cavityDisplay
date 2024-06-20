@@ -1,5 +1,3 @@
-from functools import partial
-
 from PyQt5.QtGui import QColor, QCursor
 from PyQt5.QtWidgets import (
     QHBoxLayout,
@@ -8,6 +6,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QGroupBox,
 )
+from functools import partial
 from pydm import Display
 from pydm.utilities import IconFont
 from pydm.widgets import PyDMByteIndicator, PyDMLabel
@@ -65,6 +64,7 @@ class CavityDisplayGUI(Display):
         self.setLayout(self.vlayout)
 
         self.groupbox_vlayout.addLayout(self.gui_machine.top_half)
+        self.groupbox_vlayout.addSpacing(10)
         self.groupbox_vlayout.addWidget(make_line(QFrame.HLine))
         self.groupbox_vlayout.addLayout(self.gui_machine.bottom_half)
 

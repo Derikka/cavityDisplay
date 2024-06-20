@@ -99,7 +99,7 @@ class GUICavity(BackendCavity):
 
             short_description_label = QLabel(fault.short_description)
             short_description_label.setSizePolicy(
-                QSizePolicy.Maximum, QSizePolicy.Maximum
+                QSizePolicy.Maximum, QSizePolicy.Preferred
             )
             short_description_label.setAlignment(Qt.AlignLeft)
             short_description_label.setWordWrap(True)
