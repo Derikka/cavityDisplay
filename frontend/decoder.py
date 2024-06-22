@@ -1,7 +1,6 @@
-import sys
 from collections import OrderedDict
-from dataclasses import dataclass
 
+import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QHBoxLayout,
@@ -13,8 +12,10 @@ from PyQt5.QtWidgets import (
     QApplication,
     QAbstractScrollArea,
 )
+from dataclasses import dataclass
 from pydm import Display
 
+sys.path.insert(0, '.')
 from utils.utils import parse_csv
 
 rows = {}
