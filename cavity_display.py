@@ -1,5 +1,3 @@
-from functools import partial
-
 from PyQt5.QtGui import QColor, QCursor
 from PyQt5.QtWidgets import (
     QHBoxLayout,
@@ -8,13 +6,14 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QGroupBox,
 )
+from functools import partial
 from pydm import Display
 from pydm.utilities import IconFont
 from pydm.widgets import PyDMByteIndicator, PyDMLabel
 
 from frontend.decoder import DecoderDisplay
 from frontend.gui_machine import GUIMachine
-from frontend.utils import make_line
+from frontend.utils_frontend import make_line
 from lcls_tools.common.frontend.display.util import showDisplay
 
 

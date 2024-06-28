@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QHBoxLayout
 
 from frontend.gui_cavity import GUICavity
 from frontend.gui_cryomodule import GUICryomodule
-from frontend.utils import make_line
+from frontend.utils_frontend import make_line
 from lcls_tools.superconducting.sc_linac import Machine
 
 
