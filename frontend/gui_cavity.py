@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING, Optional
 
 from backend.backend_cavity import BackendCavity
 from frontend.cavity_widget import CavityWidget
-from frontend.utils_frontend import make_header, EnumLabel, PyDMFaultButton
+from frontend.utils import make_header, EnumLabel, PyDMFaultButton
 from lcls_tools.common.frontend.display.util import showDisplay
 
 if TYPE_CHECKING:

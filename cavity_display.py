@@ -13,7 +13,7 @@ from pydm.widgets import PyDMByteIndicator, PyDMLabel
 
 from frontend.decoder import DecoderDisplay
 from frontend.gui_machine import GUIMachine
-from frontend.utils_frontend import make_line
+from frontend.utils import make_line
 from lcls_tools.common.frontend.display.util import showDisplay
 
 

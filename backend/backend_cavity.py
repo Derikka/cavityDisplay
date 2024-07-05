@@ -1,12 +1,12 @@
 from collections import OrderedDict
-from datetime import datetime
-from typing import Dict
 
+from datetime import datetime
 from epics import caput
+from typing import Dict
 
 from backend.fault import Fault, FaultCounter, PVInvalidError
 from lcls_tools.superconducting.sc_linac import Cavity
-from utils.utils import (
+from utils.utilities import (
     STATUS_SUFFIX,
     DESCRIPTION_SUFFIX,
     SEVERITY_SUFFIX,
@@ -18,9 +18,9 @@ from utils.utils import (
 
 class BackendCavity(Cavity):
     def __init__(
-        self,
-        cavity_num,
-        rack_object,
+            self,
+            cavity_num,
+            rack_object,
     ):
         super(BackendCavity, self).__init__(
             cavity_num=cavity_num, rack_object=rack_object
@@ -75,7 +75,7 @@ class BackendCavity(Cavity):
                 )
 
                 if (cm_type == "1.3" and self.cryomodule.is_harmonic_linearizer) or (
-                    cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
+                        cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
                 ):
                     continue
                 pv = prefix + suffix
@@ -119,7 +119,7 @@ class BackendCavity(Cavity):
             )
 
     def get_fault_counts(
-        self, start_time: datetime, end_time: datetime
+            self, start_time: datetime, end_time: datetime
     ) -> Dict[str, FaultCounter]:
         result: Dict[str, FaultCounter] = {}
 
