@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (
 from dataclasses import dataclass
 from pydm import Display
 
-from utils.utilities import parse_csv
+from utils.utils import parse_csv
 
 rows = {}
 

@@ -5,7 +5,7 @@ from backend.backend_cavity import BackendCavity
 from lcls_tools.common.controls.pyepics.utils import PV
 from lcls_tools.superconducting.sc_linac import Machine, Cryomodule
 from lcls_tools.superconducting.sc_linac_utils import ALL_CRYOMODULES
-from utils.utilities import DEBUG, BACKEND_SLEEP_TIME
+from utils.utils import DEBUG, BACKEND_SLEEP_TIME
 
 WATCHER_PV: PV = PV("PHYS:SYS0:1:SC_CAV_FAULT_HEARTBEAT")
 WATCHER_PV.put(0)

@@ -6,7 +6,7 @@ from typing import Dict
 
 from backend.fault import Fault, FaultCounter, PVInvalidError
 from lcls_tools.superconducting.sc_linac import Cavity
-from utils.utilities import (
+from utils.utils import (
     STATUS_SUFFIX,
     DESCRIPTION_SUFFIX,
     SEVERITY_SUFFIX,
