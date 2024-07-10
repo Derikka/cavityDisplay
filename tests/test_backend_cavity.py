@@ -1,5 +1,7 @@
 from unittest import TestCase, mock
 
+from lcls_tools.superconducting.sc_linac import Machine
+
 builtin_open = open  # save the unpatched version
 
 csv_keys = [
@@ -144,27 +146,26 @@ csv_cm_row = [
 
 
 def mock_open(*args, **kwargs):
-    if args[0] == "faults.csv":
-        data = [",".join(csv_keys), ",".join(csv_rack_row)]
-        # mocked open for path "foo"
-        return mock.mock_open(read_data="\n".join(data))(*args, **kwargs)
-    # unpatched version for every other path
-    return builtin_open(*args, **kwargs)
+    data = [",".join(csv_keys), ",".join(csv_rack_row)]
+    # mocked open for path "foo"
+    return mock.mock_open(read_data="\n".join(data))(*args, **kwargs)
 
 
 # These import states try to read from faults.csv which causes an error
 with mock.patch("builtins.open", mock_open):
-    from display_linac import DISPLAY_MACHINE, DisplayCavity
+    from backend.backend_cavity import BackendCavity
+
+    DISPLAY_MACHINE = Machine(
+        cavity_class=BackendCavity,
+    )
 
 
-class TestDisplayCavity(TestCase):
+class TestBackendCavity(TestCase):
     def test_create_faults_rack(self):
         cm01 = DISPLAY_MACHINE.cryomodules["01"]
-        cavity1: DisplayCavity = cm01.cavities[1]
-        cavity5: DisplayCavity = cm01.cavities[5]
+        cavity1: BackendCavity = cm01.cavities[1]
+        cavity5: BackendCavity = cm01.cavities[5]
 
-        cavity1.create_faults()
-        cavity5.create_faults()
         self.assertEqual(len(cavity1.faults.values()), 1)
         self.assertEqual(
             len(cavity5.faults.values()), 0, msg="Rack B cavity created Rack A fault"

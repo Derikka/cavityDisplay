@@ -1,65 +1,29 @@
 from collections import OrderedDict
-
 from datetime import datetime
-from epics import caput
 from typing import Dict
 
+from epics import caput
+
 from bar_chart_test import BarChart
-from fault import Fault, FaultCounter, PVInvalidError
-from lcls_tools.superconducting.sc_linac import Cavity, Cryomodule, Machine, SSA
-from utils import (
-    CSV_FAULTS,
+from backend.fault import Fault, FaultCounter, PVInvalidError
+from lcls_tools.superconducting.sc_linac import Cavity
+from utils.utils import (
+    STATUS_SUFFIX,
     DESCRIPTION_SUFFIX,
     SEVERITY_SUFFIX,
-    STATUS_SUFFIX,
+    parse_csv,
+    SpreadsheetError,
     display_hash,
 )
 
 
-class DisplaySSA(SSA):
-    def __init__(self, cavity):
-        super().__init__(cavity)
-        self.alarm_sevr_pv: str = self.pv_addr("AlarmSummary.SEVR")
-
-
-class SpreadsheetError(Exception):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
-
-
-class DisplayCryomodule(Cryomodule):
+class BackendCavity(Cavity):
     def __init__(
-            self,
-            cryo_name,
-            linac_object,
+        self,
+        cavity_num,
+        rack_object,
     ):
-        super().__init__(
-            cryo_name=cryo_name,
-            linac_object=linac_object,
-        )
-        for cavity in self.cavities.values():
-            cavity.create_faults()
-
-    @property
-    def pydm_macros(self):
-        """
-        Currenlty only used for NIRP fault, but I think we can just keep adding
-        to this list
-        :return:
-        """
-        return "AREA={linac_name},CM={cm_name},RFNAME=CM{cm_name}".format(
-            linac_name=self.linac.name, cm_name=self.name
-        )
-
-
-class DisplayCavity(Cavity):
-    def __init__(
-            self,
-            cavity_num,
-            rack_object,
-    ):
-        super(DisplayCavity, self).__init__(
+        super(BackendCavity, self).__init__(
             cavity_num=cavity_num, rack_object=rack_object
         )
         self.status_pv: str = self.pv_addr(STATUS_SUFFIX)
@@ -67,9 +31,10 @@ class DisplayCavity(Cavity):
         self.description_pv: str = self.pv_addr(DESCRIPTION_SUFFIX)
 
         self.faults: OrderedDict[int, Fault] = OrderedDict()
+        self.create_faults()
 
     def create_faults(self):
-        for csv_fault_dict in CSV_FAULTS:
+        for csv_fault_dict in parse_csv():
             level = csv_fault_dict["Level"]
             suffix = csv_fault_dict["PV Suffix"]
             rack = csv_fault_dict["Rack"]
@@ -111,7 +76,7 @@ class DisplayCavity(Cavity):
                 )
 
                 if (cm_type == "1.3" and self.cryomodule.is_harmonic_linearizer) or (
-                        cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
+                    cm_type == "3.9" and not self.cryomodule.is_harmonic_linearizer
                 ):
                     continue
                 pv = prefix + suffix
@@ -155,7 +120,7 @@ class DisplayCavity(Cavity):
             )
 
     def get_fault_counts(
-            self, start_time: datetime, end_time: datetime
+        self, start_time: datetime, end_time: datetime
     ) -> Dict[str, FaultCounter]:
         result: Dict[str, FaultCounter] = {}
 
@@ -190,7 +155,7 @@ class DisplayCavity(Cavity):
                 break
 
         if is_okay:
-            caput(self.status_pv, str(self.number))
+            caput(self.status_pv, f"{self.number}")
             caput(self.severity_pv, 0)
             caput(self.description_pv, " ")
         else:
@@ -200,8 +165,3 @@ class DisplayCavity(Cavity):
                 caput(self.severity_pv, fault.severity)
             else:
                 caput(self.severity_pv, 3)
-
-
-DISPLAY_MACHINE = Machine(
-    ssa_class=DisplaySSA, cavity_class=DisplayCavity, cryomodule_class=DisplayCryomodule
-)

@@ -104,7 +104,7 @@ class Fault:
     def was_faulted(self, time: datetime):
         archiver_value: ArchiverValue = get_data_at_time(
             pv_list=[self.pv.pvname], time_requested=time
-        )
+        )[self.pv.pvname]
         return self.is_faulted(archiver_value)
 
     def get_fault_count_over_time_range(
