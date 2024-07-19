@@ -13,10 +13,9 @@ from lcls_tools.common.data_analysis.archiver import (
 
 class BarChart(Display):
     def __init__(self, parent=None, args=None):
-        super(BarChart, self).__init__(parent=parent, args=args,
-                                       ui_filename="testBarChart.ui")
-
-        vertLayout_Form = self.ui.findChild(QVBoxLayout)
+        super().__init__(parent, args)
+        # super(BarChart, self).__init__(parent=parent, args=args,
+        #                               ui_filename="testBarChart.ui")
 
         pv_string1 = "ACCL:L3B:1910:PZT:FBSTATSUM"  # PZO fault
         pv_string2 = "XCOR:L3B:1685:STATMSG"  # MGT fault
@@ -50,9 +49,15 @@ class BarChart(Display):
                 yaxis_fault.append(fault_count)
                 print(key, "\tTotal fault counts: ", fault_count)
 
+        self.setWindowTitle("Bar Chart")
+        vertLayout_Form = QVBoxLayout()
+        # vertLayout_Form = self.ui.findChild(QVBoxLayout)
+
         # Make plot window and add it to the vert layout
-        plot_window = pg.plot()
-        vertLayout_Form.addWidget(plot_window)
+        self.plot_window = pg.plot()
+        vertLayout_Form.addWidget(self.plot_window)
+
+        self.setLayout(vertLayout_Form)
 
         # Create list for horizontal and vertical axis
         xlabel = ['PZO', 'MGT']
@@ -68,12 +73,12 @@ class BarChart(Display):
         # Create pyqt5graph bar graph item with green bars
         bargraph = pg.BarGraphItem(x=xval, height=yaxis_fault, width=0.6, brush='g')
 
-        ax = plot_window.getAxis('bottom')
+        ax = self.plot_window.getAxis('bottom')
         ax.setTicks(ticks)
-        plot_window.showGrid(x=False, y=True, alpha=0.6)
+        self.plot_window.showGrid(x=False, y=True, alpha=0.6)
 
         # Add bargraph to plot window
-        plot_window.addItem(bargraph)
+        self.plot_window.addItem(bargraph)
 
         '''
         pv_list = Tester().pvList  # ["BEND:LTUH:220:BDES", "BEND:LTUH:280:BDES"]
