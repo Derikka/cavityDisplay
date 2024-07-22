@@ -2,7 +2,7 @@
 # import sys
 # from PyQt.QtChart import
 import pyqtgraph as pg
-from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout, QApplication
 from datetime import datetime
 from pydm import Display
 
@@ -14,8 +14,8 @@ from lcls_tools.common.data_analysis.archiver import (
 class BarChart(Display):
     def __init__(self, parent=None, args=None):
         super().__init__(parent, args)
-        # super(BarChart, self).__init__(parent=parent, args=args,
-        #                               ui_filename="testBarChart.ui")
+
+        print("TEST: this is bar_chart_display.py")
 
         pv_string1 = "ACCL:L3B:1910:PZT:FBSTATSUM"  # PZO fault
         pv_string2 = "XCOR:L3B:1685:STATMSG"  # MGT fault
@@ -51,7 +51,6 @@ class BarChart(Display):
 
         self.setWindowTitle("Bar Chart")
         vertLayout_Form = QVBoxLayout()
-        # vertLayout_Form = self.ui.findChild(QVBoxLayout)
 
         # Make plot window and add it to the vert layout
         self.plot_window = pg.plot()
@@ -80,12 +79,12 @@ class BarChart(Display):
         # Add bargraph to plot window
         self.plot_window.addItem(bargraph)
 
-        '''
-        pv_list = Tester().pvList  # ["BEND:LTUH:220:BDES", "BEND:LTUH:280:BDES"]
-        start_time = datetime(2020, 10, 1, 10, 7, 28, 958256)  # 220
-        end_time = datetime(2020, 10, 14, 9, 57, 57, 230327)  # 220
-        result = Archiver('lcls').getValuesOverTimeRange(pvList=pv_list,
-                                                         startTime=start_time,
-                                                         endTime=end_time)
-        print(result)
-        '''
+
+def main():
+    app = QApplication(sys.argv)
+    chart = BarChart()
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
