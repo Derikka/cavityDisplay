@@ -20,11 +20,21 @@ class FaultCounter:
     invalid_count: int = 0
 
     @property
+    def sum_fault_count(self):
+        return self.fault_count + self.invalid_count
+
+    @property
     def ratio_ok(self):
         try:
             return self.ok_count / (self.fault_count + self.invalid_count)
         except ZeroDivisionError:
             return 1
+
+    def __gt__(self, other):
+        return self.sum_fault_count > other.sum_fault_count
+
+    def __eq__(self, other):
+        return self.sum_fault_count == other.sum_fault_count
 
 
 class PVInvalidError(Exception):
