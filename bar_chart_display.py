@@ -38,4 +38,6 @@ class BarChart(Display):
 
         # Add bargraph to plot window
         self.plot_window.addItem(bargraph)
-        print("End of bar_chart_display.py----------------------------------------")
+
+
+print("End of bar_chart_display.py----------------------------------------")
