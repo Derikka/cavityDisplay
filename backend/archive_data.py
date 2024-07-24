@@ -1,6 +1,6 @@
 import pyqtgraph as pg
 from PyQt5.QtCore import QDateTime
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QComboBox, QDateTimeEdit, QPushButton
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QComboBox, QDateTimeEdit, QPushButton, QLabel
 from pydm import Display
 from typing import Dict
 
@@ -24,21 +24,32 @@ class FaultCounter(Display):
         main_v_layout.addWidget(self.plot_window)
         self.setLayout(main_v_layout)
 
+        cm_text = QLabel("CM:")
         self.cm_combo_box = QComboBox()
+        cav_text = QLabel("Cav:")
         self.cav_combo_box = QComboBox()
 
-        min_date_time = QDateTime(2022, 1, 1, 0, 0)
+        end_date_time = QDateTime.currentDateTime()
+        min_date_time = QDateTime.addSecs(end_date_time, 10 * -60)
+
+        start_text = QLabel("Start:")
         self.start_selector = QDateTimeEdit()
+        end_text = QLabel("End:")
         self.end_selector = QDateTimeEdit()
 
         self.start_selector.setMinimumDateTime(min_date_time)
-        self.end_selector.setMinimumDateTime(min_date_time)
+        self.end_selector.setMinimumDateTime(end_date_time)
 
         self.plot_button = QPushButton()
+        self.plot_button.setText("Update Bar Chart")
 
+        input_h_layout.addWidget(cm_text)
         input_h_layout.addWidget(self.cm_combo_box)
+        input_h_layout.addWidget(cav_text)
         input_h_layout.addWidget(self.cav_combo_box)
+        input_h_layout.addWidget(start_text)
         input_h_layout.addWidget(self.start_selector)
+        input_h_layout.addWidget(end_text)
         input_h_layout.addWidget(self.end_selector)
         input_h_layout.addWidget(self.plot_button)
 
